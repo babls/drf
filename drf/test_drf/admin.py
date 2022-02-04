@@ -7,7 +7,7 @@ class ContestAdmin(admin.ModelAdmin):
 
 
 class QuestionsAdmin(admin.ModelAdmin):
-    list_display = ['id', 'name', 'text', 'id_contest', 'multiple_answers']
+    list_display = ['text', 'id_contest']
 
 
 class AnswersAdmin(admin.ModelAdmin):
