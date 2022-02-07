@@ -20,7 +20,7 @@ class Question(models.Model):
 
 class Answer(models.Model):
     text = models.CharField(max_length=200, verbose_name='Текст ответа')
-    id_questions = models.ForeignKey('Question', default=None, null=True, on_delete=models.CASCADE, related_name='Question', verbose_name='Вопрос')
+    id_questions = models.ForeignKey('Question', default=None, null=True, on_delete=models.CASCADE, related_name='Answer', verbose_name='Вопрос')
     true_answer = models.BooleanField(default=False, verbose_name='Верный вариант ответа?')
 
     def __str__(self):

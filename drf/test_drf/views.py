@@ -1,5 +1,7 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.generics import GenericAPIView
+from rest_framework.mixins import ListModelMixin, CreateModelMixin
 from .models import Answer, Question, Contest
 from .serializers import AnswerSerializer, QuestionSerializer, ContestSerializer, TestSerializer, AllSerializer
 
@@ -25,14 +27,25 @@ class ContestList(APIView):
         return Response(serializer.data)
 
 
-class TestList(APIView):
+class TestList(ListModelMixin, CreateModelMixin, GenericAPIView):
+    serializer_class = TestSerializer
+
+    def get_queryset(self):
+        queryset = Question.objects.all()
+        item_id = self.request.query_params.get('id')
+        if item_id:
+            queryset = queryset.filter(id_contest=item_id)
+        return queryset
+
     def get(self, request):
-        contests = Question.objects.all()
-        serializer = TestSerializer(contests, many=True)
-        return Response(serializer.data)
+        return self.list(request)
+
+    def post(self, request, format=None):
+        return self.create(request)
+
 
 class AllList(APIView):
     def get(self, request):
-        contests = Question.objects.all()
-        serializer = AllSerializer(contests, many=True)
+        queryset = Contest.objects.all()
+        serializer = AllSerializer(queryset, many=True)
         return Response(serializer.data)
