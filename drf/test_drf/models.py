@@ -25,3 +25,11 @@ class Answer(models.Model):
 
     def __str__(self):
         return self.text
+
+
+class UserAnswer(models.Model):
+    id_user = models.CharField(max_length=200, verbose_name='Пользователь')
+    id_contest = models.ForeignKey('Contest', default=None, null=True, on_delete=models.CASCADE, related_name='UserAnswerContests', verbose_name='Конкурс')
+    id_questions = models.ForeignKey('Question', default=None, null=True, on_delete=models.CASCADE, related_name='UserAnswerQuestions', verbose_name='Вопрос')
+    id_answer = models.ForeignKey('Answer', default=None, null=False, on_delete=models.CharField, related_name='UserAnswerAnswers', verbose_name='Ответ')
+
